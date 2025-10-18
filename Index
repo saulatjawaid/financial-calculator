@@ -1,1 +1,763 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FinCalc Pro - Your Trusted Financial Calculator</title>
+    <style>
+        /* --- CSS Variables for Theming --- */
+        :root {
+            --primary-color: #0052cc;
+            --primary-hover: #003d99;
+            --secondary-color: #6c757d;
+            --accent-color: #ff6b35;
+            --background-color: #f4f7f6;
+            --card-background: #ffffff;
+            --text-color: #333;
+            --text-light: #ffffff;
+            --border-color: #ddd;
+            --shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            --border-radius: 8px;
+        }
 
+        /* --- Global Styles & Resets --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        h1, h2, h3 {
+            font-weight: 600;
+            line-height: 1.2;
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+
+        section {
+            padding: 80px 0;
+        }
+
+        .section-subtitle {
+            font-size: 1.2rem;
+            color: var(--secondary-color);
+            max-width: 600px;
+            margin: 0 auto 3rem auto;
+            text-align: center;
+        }
+
+        /* --- Navigation Bar --- */
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: var(--accent-color);
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 500;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--accent-color);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after,
+        .nav-links a.active::after {
+            width: 100%;
+        }
+        
+        .nav-links a.active {
+            color: var(--primary-color);
+        }
+
+        /* --- Hero Section --- */
+        #hero {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-hover));
+            color: var(--text-light);
+            padding: 150px 0 100px 0;
+            text-align: center;
+        }
+
+        #hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            font-weight: 300;
+        }
+
+        #hero p {
+            font-size: 1.25rem;
+            max-width: 700px;
+            margin: 0 auto 2rem auto;
+            opacity: 0.9;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background-color: var(--accent-color);
+            color: var(--text-light);
+            padding: 12px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .cta-button:hover {
+            background-color: #e55a2b;
+            transform: translateY(-3px);
+        }
+
+        /* --- About Us Section --- */
+        #about {
+            background-color: var(--card-background);
+        }
+        
+        .about-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .about-card {
+            background-color: var(--background-color);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .about-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow);
+        }
+
+        .about-card .icon {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+            text-align: center;
+        }
+
+        .team-member img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 1rem;
+            border: 5px solid var(--card-background);
+            box-shadow: var(--shadow);
+        }
+
+        .team-member h4 {
+            color: var(--primary-color);
+        }
+
+        .team-member p {
+            color: var(--secondary-color);
+            font-size: 0.9rem;
+        }
+
+        /* --- Calculators Section (Reusing previous styles) --- */
+        #calculators {
+            background-color: var(--background-color);
+        }
+
+        .calculator-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: var(--card-background);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+        .tabs {
+            display: flex;
+            background-color: #e9ecef;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .tab-button {
+            flex: 1;
+            background: none;
+            border: none;
+            padding: 15px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s;
+            border-bottom: 3px solid transparent;
+        }
+
+        .tab-button:hover {
+            background-color: #dee2e6;
+        }
+
+        .tab-button.active {
+            background-color: var(--card-background);
+            color: var(--primary-color);
+            border-bottom-color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .calculator-content {
+            padding: 30px;
+        }
+
+        .calculator-panel {
+            display: none;
+        }
+
+        .calculator-panel.active {
+            display: block;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        input[type="number"], textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        input[type="number"]:focus, textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(0, 82, 204, 0.25);
+        }
+
+        .calculate-btn {
+            display: inline-block;
+            width: 100%;
+            padding: 12px 20px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .calculate-btn:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .results-container {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #e7f5ff;
+            border-left: 5px solid var(--primary-color);
+            border-radius: var(--border-radius);
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.5s, transform 0.5s;
+        }
+
+        .results-container.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .results-container h3 {
+            margin-bottom: 15px;
+            color: var(--primary-color);
+        }
+
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .result-item strong {
+            color: var(--secondary-color);
+        }
+
+        .result-value {
+            font-weight: 700;
+            color: var(--text-color);
+        }
+
+        .error-message {
+            color: #dc3545;
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+            padding: 10px;
+            border-radius: var(--border-radius);
+            margin-top: 15px;
+            display: none;
+        }
+
+        /* --- Contact Section --- */
+        #contact {
+            background-color: var(--card-background);
+        }
+
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .contact-form .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .submit-btn {
+            display: block;
+            width: 100%;
+            padding: 12px 20px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .submit-btn:hover {
+            background-color: var(--primary-hover);
+        }
+
+        /* --- Footer --- */
+        footer {
+            background-color: #2c3e50;
+            color: var(--text-light);
+            text-align: center;
+            padding: 2rem 0;
+        }
+
+        .footer-links {
+            margin-bottom: 1rem;
+        }
+
+        .footer-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            margin: 0 10px;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent-color);
+        }
+
+        /* --- Utility Classes for Animations --- */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- Responsive Design --- */
+        @media (max-width: 768px) {
+            .nav-links {
+                gap: 1rem;
+                font-size: 0.9rem;
+            }
+
+            h1 { font-size: 2.5rem; }
+            h2 { font-size: 2rem; }
+
+            #hero h1 { font-size: 2.8rem; }
+            #hero p { font-size: 1.1rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ====== NAVIGATION ====== -->
+    <header>
+        <nav class="container">
+            <a href="#hero" class="logo">FinCalc<span>Pro</span></a>
+            <ul class="nav-links">
+                <li><a href="#hero" class="nav-link active">Home</a></li>
+                <li><a href="#calculators" class="nav-link">Calculators</a></li>
+                <li><a href="#about" class="nav-link">About Us</a></li>
+                <li><a href="#contact" class="nav-link">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <!-- ====== HERO SECTION ====== -->
+        <section id="hero">
+            <div class="container fade-in">
+                <h1>Master Your Financial Future</h1>
+                <p>Make informed decisions with our suite of easy-to-use, accurate financial calculators. Plan your loans, investments, and more with confidence.</p>
+                <a href="#calculators" class="cta-button">Start Calculating Now</a>
+            </div>
+        </section>
+
+        <!-- ====== CALCULATORS SECTION ====== -->
+        <section id="calculators">
+            <div class="container fade-in">
+                <h2>Financial Calculators</h2>
+                <p class="section-subtitle">Powerful tools to help you plan and analyze your financial goals.</p>
+                
+                <div class="calculator-container">
+                    <nav class="tabs">
+                        <button class="tab-button active" data-target="loan-panel">Loan Calculator</button>
+                        <button class="tab-button" data-target="investment-panel">Investment Calculator</button>
+                    </nav>
+                    <div class="calculator-content">
+                        <!-- Loan Calculator Panel -->
+                        <div id="loan-panel" class="calculator-panel active">
+                            <h3>Loan / Mortgage Calculator</h3>
+                            <form id="loan-form">
+                                <div class="form-group">
+                                    <label for="loan-amount">Loan Amount ($)</label>
+                                    <input type="number" id="loan-amount" placeholder="e.g., 250000" required min="1">
+                                </div>
+                                <div class="form-group">
+                                    <label for="loan-rate">Annual Interest Rate (%)</label>
+                                    <input type="number" id="loan-rate" placeholder="e.g., 4.5" step="0.01" required min="0">
+                                </div>
+                                <div class="form-group">
+                                    <label for="loan-term">Loan Term (years)</label>
+                                    <input type="number" id="loan-term" placeholder="e.g., 30" required min="1">
+                                </div>
+                                <button type="submit" class="calculate-btn">Calculate Monthly Payment</button>
+                            </form>
+                            <div id="loan-results" class="results-container">
+                                <h4>Your Loan Breakdown</h4>
+                                <div class="result-item"><span>Monthly Payment:</span><span class="result-value" id="monthly-payment"></span></div>
+                                <div class="result-item"><span>Total Payment:</span><span class="result-value" id="total-payment"></span></div>
+                                <div class="result-item"><span>Total Interest Paid:</span><span class="result-value" id="total-interest"></span></div>
+                            </div>
+                            <div id="loan-error" class="error-message"></div>
+                        </div>
+
+                        <!-- Investment Calculator Panel -->
+                        <div id="investment-panel" class="calculator-panel">
+                            <h3>Compound Interest Calculator</h3>
+                            <form id="investment-form">
+                                <div class="form-group">
+                                    <label for="initial-investment">Initial Investment ($)</label>
+                                    <input type="number" id="initial-investment" placeholder="e.g., 10000" min="0">
+                                </div>
+                                <div class="form-group">
+                                    <label for="monthly-contribution">Monthly Contribution ($)</label>
+                                    <input type="number" id="monthly-contribution" placeholder="e.g., 500" min="0">
+                                </div>
+                                <div class="form-group">
+                                    <label for="investment-rate">Annual Interest Rate (%)</label>
+                                    <input type="number" id="investment-rate" placeholder="e.g., 7" step="0.01" required min="0">
+                                </div>
+                                <div class="form-group">
+                                    <label for="investment-term">Investment Period (years)</label>
+                                    <input type="number" id="investment-term" placeholder="e.g., 20" required min="1">
+                                </div>
+                                <button type="submit" class="calculate-btn">Calculate Future Value</button>
+                            </form>
+                            <div id="investment-results" class="results-container">
+                                <h4>Your Investment Breakdown</h4>
+                                <div class="result-item"><span>Future Value:</span><span class="result-value" id="future-value"></span></div>
+                                <div class="result-item"><span>Total Contributions:</span><span class="result-value" id="total-contributions"></span></div>
+                                <div class="result-item"><span>Total Interest Earned:</span><span class="result-value" id="total-interest-earned"></span></div>
+                            </div>
+                            <div id="investment-error" class="error-message"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ====== ABOUT US SECTION ====== -->
+        <section id="about">
+            <div class="container fade-in">
+                <h2>About FinCalc Pro</h2>
+                <p class="section-subtitle">We are dedicated to demystifying finance and empowering you with the tools to succeed.</p>
+                
+                <div class="about-grid">
+                    <div class="about-card">
+                        <div class="icon">🎯</div>
+                        <h3>Our Mission</h3>
+                        <p>To provide clear, accessible, and powerful financial calculation tools that help individuals and businesses make smarter, data-driven decisions for a secure financial future.</p>
+                    </div>
+                    <div class="about-card">
+                        <div class="icon">📖</div>
+                        <h3>Our Story</h3>
+                        <p>Founded by a team of finance experts and software engineers, FinCalc Pro was born from a simple idea: complex financial planning shouldn't require complex software. We're here to simplify the numbers.</p>
+                    </div>
+                    <div class="about-card">
+                        <div class="icon">✨</div>
+                        <h3>Why Choose Us?</h3>
+                        <p>Our tools are not only accurate and reliable but also completely free and easy to use. We believe financial empowerment should be accessible to everyone, everywhere.</p>
+                    </div>
+                </div>
+
+                <h3 style="text-align:center; margin-top: 4rem; color: var(--primary-color);">Meet The Team</h3>
+                <div class="team-grid">
+                    <div class="team-member">
+                        <img src="https://i.pravatar.cc/150?img=32" alt="Team Member">
+                        <h4>Alex Johnson</h4>
+                        <p>CEO & Founder</p>
+                    </div>
+                    <div class="team-member">
+                        <img src="https://i.pravatar.cc/150?img=47" alt="Team Member">
+                        <h4>Maria Garcia</h4>
+                        <p>Lead Engineer</p>
+                    </div>
+                    <div class="team-member">
+                        <img src="https://i.pravatar.cc/150?img=19" alt="Team Member">
+                        <h4>Ben Carter</h4>
+                        <p>Head of Finance</p>
+                    </div>
+                    <div class="team-member">
+                        <img src="https://i.pravatar.cc/150?img=36" alt="Team Member">
+                        <h4>Sophie Williams</h4>
+                        <p>UX/UI Designer</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ====== CONTACT SECTION ====== -->
+        <section id="contact">
+            <div class="container fade-in">
+                <h2>Get In Touch</h2>
+                <p class="section-subtitle">Have a question or a suggestion? We'd love to hear from you!</p>
+                
+                <form class="contact-form" id="contact-form">
+                    <div class="form-group">
+                        <label for="name">Your Name</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Your Email</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea id="message" name="message" rows="5" required></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn">Send Message</button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <!-- ====== FOOTER ====== -->
+    <footer>
+        <div class="container">
+            <div class="footer-links">
+                <a href="#hero">Home</a>
+                <a href="#calculators">Calculators</a>
+                <a href="#about">About</a>
+                <a href="#contact">Contact</a>
+            </div>
+            <p>&copy; 2024 FinCalc Pro. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // --- Utility Functions ---
+            const formatCurrency = (amount) => {
+                return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(amount);
+            };
+            const showError = (elementId, message) => {
+                const errorElement = document.getElementById(elementId);
+                errorElement.textContent = message;
+                errorElement.style.display = 'block';
+                setTimeout(() => { errorElement.style.display = 'none'; }, 5000);
+            };
+
+            // --- Navigation & Active Link Highlighting ---
+            const navLinks = document.querySelectorAll('.nav-link');
+            const sections = document.querySelectorAll('section');
+
+            const highlightActiveLink = () => {
+                let current = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.clientHeight;
+                    if (pageYOffset >= (sectionTop - 200)) {
+                        current = section.getAttribute('id');
+                    }
+                });
+
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href').slice(1) === current) {
+                        link.classList.add('active');
+                    }
+                });
+            };
+            window.addEventListener('scroll', highlightActiveLink);
+
+            // --- Fade-in Animation on Scroll ---
+            const faders = document.querySelectorAll('.fade-in');
+            const appearOptions = { threshold: 0.1, rootMargin: "0px 0px -50px 0px" };
+            const appearOnScroll = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (!entry.isIntersecting) return;
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                });
+            }, appearOptions);
+            faders.forEach(fader => appearOnScroll.observe(fader));
+
+            // --- Calculator Tab Switching ---
+            const tabButtons = document.querySelectorAll('.tab-button');
+            const calculatorPanels = document.querySelectorAll('.calculator-panel');
+            tabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const targetId = button.getAttribute('data-target');
+                    tabButtons.forEach(btn => btn.classList.remove('active'));
+                    calculatorPanels.forEach(panel => panel.classList.remove('active'));
+                    button.classList.add('active');
+                    document.getElementById(targetId).classList.add('active');
+                });
+            });
+
+            // --- Loan Calculator Logic ---
+            const loanForm = document.getElementById('loan-form');
+            const loanResults = document.getElementById('loan-results');
+            loanForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const principal = parseFloat(document.getElementById('loan-amount').value);
+                const annualRate = parseFloat(document.getElementById('loan-rate').value);
+                const years = parseFloat(document.getElementById('loan-term').value);
+                if (isNaN(principal) || isNaN(annualRate) || isNaN(years) || principal <= 0 || years <= 0) { showError('loan-error', 'Please enter valid positive numbers.'); return; }
+                const monthlyRate = annualRate / 100 / 12;
+                const numPayments = years * 12;
+                let monthlyPayment = (monthlyRate === 0) ? principal / numPayments : principal * (monthlyRate * Math.pow(1 + monthlyRate, numPayments)) / (Math.pow(1 + monthlyRate, numPayments) - 1);
+                const totalPayment = monthlyPayment * numPayments;
+                const totalInterest = totalPayment - principal;
+                document.getElementById('monthly-payment').textContent = formatCurrency(monthlyPayment);
+                document.getElementById('total-payment').textContent = formatCurrency(totalPayment);
+                document.getElementById('total-interest').textContent = formatCurrency(totalInterest);
+                loanResults.classList.add('visible');
+            });
+
+            // --- Investment Calculator Logic ---
+            const investmentForm = document.getElementById('investment-form');
+            const investmentResults = document.getElementById('investment-results');
+            investmentForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const initial = parseFloat(document.getElementById('initial-investment').value) || 0;
+                const monthlyContribution = parseFloat(document.getElementById('monthly-contribution').value) || 0;
+                const annualRate = parseFloat(document.getElementById('investment-rate').value);
+                const years = parseFloat(document.getElementById('investment-term').value);
+                if (isNaN(annualRate) || isNaN(years) || annualRate < 0 || years <= 0) { showError('investment-error', 'Please enter valid numbers for Rate and Term.'); return; }
+                const monthlyRate = annualRate / 100 / 12;
+                const months = years * 12;
+                let futureValue = initial * Math.pow(1 + monthlyRate, months);
+                if (monthlyContribution > 0) {
+                    futureValue += (monthlyRate === 0) ? monthlyContribution * months : monthlyContribution * ((Math.pow(1 + monthlyRate, months) - 1) / monthlyRate);
+                }
+                const totalContributions = initial + (monthlyContribution * months);
+                const totalInterestEarned = futureValue - totalContributions;
+                document.getElementById('future-value').textContent = formatCurrency(futureValue);
+                document.getElementById('total-contributions').textContent = formatCurrency(totalContributions);
+                document.getElementById('total-interest-earned').textContent = formatCurrency(totalInterestEarned);
+                investmentResults.classList.add('visible');
+            });
+
+            // --- Contact Form Handling ---
+            const contactForm = document.getElementById('contact-form');
+            contactForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                alert('Thank you for your message! This is a demo form, so it was not sent.');
+                contactForm.reset();
+            });
+
+        });
+    </script>
+</body>
+</html>
